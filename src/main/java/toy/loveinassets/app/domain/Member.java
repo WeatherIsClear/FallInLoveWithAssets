@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toy.loveinassets.app.dto.MemberDto;
+import toy.loveinassets.bank.domain.Authentication;
 
 import javax.persistence.*;
 
@@ -32,13 +33,20 @@ public class Member {
 
     private LocalDate birth;
 
+    private String rrn;
+
     private boolean isAuth;
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "authentication_id")
+    private Authentication authentication;
+
     @Builder
-    private Member(String name, String email, LocalDate birth, boolean isAuth) {
+    private Member(String name, String email, LocalDate birth, String rrn, boolean isAuth) {
         this.name = name;
         this.email = email;
         this.birth = birth;
+        this.rrn = rrn;
         this.isAuth = isAuth;
     }
 
@@ -47,6 +55,7 @@ public class Member {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .birth(dto.getBirth())
+                .rrn(dto.getRrn())
                 .isAuth(false)
                 .build();
     }
