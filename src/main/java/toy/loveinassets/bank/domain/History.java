@@ -23,5 +23,5 @@ public class History {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private DepositAccount account;
 }

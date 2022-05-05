@@ -15,8 +15,10 @@ public class Bank {
     @Column(name = "bank_id")
     private Long id;
 
-    private String bankName;
-
     @Enumerated(value = EnumType.STRING)
     private BankCode bankCode;
+
+    public Bank(BankCode bankCode) {
+        this.bankCode = bankCode;
+    }
 }
