@@ -2,7 +2,7 @@ package toy.loveinassets.bank.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import toy.loveinassets.bank.enums.BankCode;
+import toy.loveinassets.bank.domain.enums.BankCode;
 
 import javax.persistence.*;
 

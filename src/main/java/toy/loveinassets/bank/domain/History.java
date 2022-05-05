@@ -2,7 +2,7 @@ package toy.loveinassets.bank.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import toy.loveinassets.bank.enums.HistoryType;
+import toy.loveinassets.bank.domain.enums.HistoryType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

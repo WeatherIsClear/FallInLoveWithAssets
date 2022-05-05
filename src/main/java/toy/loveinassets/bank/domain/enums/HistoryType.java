@@ -1,4 +1,4 @@
-package toy.loveinassets.bank.enums;
+package toy.loveinassets.bank.domain.enums;
 
 public enum HistoryType {
     DEPOSIT("입금"), WITHDRAWAL("출금");
