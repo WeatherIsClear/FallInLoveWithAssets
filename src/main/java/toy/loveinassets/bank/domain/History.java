@@ -20,4 +20,8 @@ public class History {
 
     @Enumerated(value = EnumType.STRING)
     private HistoryType historyType;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
