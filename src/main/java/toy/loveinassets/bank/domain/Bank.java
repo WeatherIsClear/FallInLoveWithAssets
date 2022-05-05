@@ -15,6 +15,10 @@ public class Bank {
     @Column(name = "bank_id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "authentication_id")
+    private Authentication authentication;
+
     @Enumerated(value = EnumType.STRING)
     private BankCode bankCode;
 

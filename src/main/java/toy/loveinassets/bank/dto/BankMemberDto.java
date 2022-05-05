@@ -1,21 +1,16 @@
-package toy.loveinassets.app.dto;
+package toy.loveinassets.bank.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
+import toy.loveinassets.bank.domain.Bank;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDto {
+public class BankMemberDto {
 
     private String name;
-
-    private String email;
-
-    private LocalDate birth;
-
+    private Bank bank;
     private String rrn;
 }
