@@ -18,4 +18,8 @@ public class Authentication {
     private Long id;
 
     private String rrn;
+
+    public Authentication(String rrn) {
+        this.rrn = rrn;
+    }
 }

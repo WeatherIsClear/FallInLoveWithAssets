@@ -1,7 +1,7 @@
 package toy.loveinassets.bank.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import toy.loveinassets.bank.domain.Account;
+import toy.loveinassets.bank.domain.DepositAccount;
 
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<DepositAccount, Long> {
 }
