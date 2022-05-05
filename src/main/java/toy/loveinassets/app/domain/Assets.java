@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import java.math.BigDecimal;
 
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
 
@@ -25,5 +26,6 @@ public class Assets {
 
     private BigDecimal amount;
 
+    @Enumerated(STRING)
     private AssetsType assetsType;
 }

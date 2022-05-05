@@ -50,6 +50,9 @@ public class InitData {
             Member memberB = Member.of(memberDtoB);
 
             memberA.matchFriend(memberB);
+            memberB.matchFriend(memberA);
+            memberA.acceptFriend();
+            memberB.acceptFriend();
 
             em.persist(memberA);
             em.persist(memberB);
@@ -64,7 +67,6 @@ public class InitData {
             em.persist(taeYeongBank);
             em.persist(seonJeBank);
 
-            //예금 동태선 하나씩, 적금 동영 하나만 하자
             DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(38000000000L), dongYeongBank);
             DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(20L), taeYeongBank);
             DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(200000000L), seonJeBank);
