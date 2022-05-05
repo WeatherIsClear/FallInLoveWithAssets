@@ -11,12 +11,4 @@ class LoveinassetsApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
-	static class FeatureYeongdonge {
-		void dongyeongPush() {
-			log.info("동영 푸시");
-
-		}
-	}
-
 }
