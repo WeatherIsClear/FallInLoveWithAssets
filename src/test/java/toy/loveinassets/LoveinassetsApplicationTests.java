@@ -15,6 +15,7 @@ class LoveinassetsApplicationTests {
 	static class FeatureYeongdonge {
 		void dongyeongPush() {
 			log.info("동영 푸시");
+
 		}
 	}
 
