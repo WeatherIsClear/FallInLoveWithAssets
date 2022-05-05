@@ -1,12 +1,10 @@
-package toy.loveinassets.authentication.domain;
+package toy.loveinassets.bank.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import toy.loveinassets.app.domain.Member;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

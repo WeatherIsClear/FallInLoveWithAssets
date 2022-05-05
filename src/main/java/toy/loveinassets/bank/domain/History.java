@@ -2,6 +2,7 @@ package toy.loveinassets.bank.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import toy.loveinassets.bank.domain.account.DepositAccount;
 import toy.loveinassets.bank.domain.enums.HistoryType;
 
 import javax.persistence.*;
