@@ -25,4 +25,5 @@ public class History {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private DepositAccount account;
+
 }
