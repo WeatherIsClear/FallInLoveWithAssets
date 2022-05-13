@@ -71,9 +71,6 @@ public class InitData {
             em.persist(taeYeongBank);
             em.persist(seonJeBank);
 
-            DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(38000000000L), dongYeongBank);
-            DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(20L), taeYeongBank);
-            DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(200000000L), seonJeBank);
 
             BankMember bankMember1 = BankMember.of(new BankMemberDto("김동영", dongYeongBank, "980526-1234567"));
             BankMember bankMember2 = BankMember.of(new BankMemberDto("김태영", taeYeongBank, "970805-1234567"));
