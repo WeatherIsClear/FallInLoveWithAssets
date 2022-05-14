@@ -39,8 +39,6 @@ public class Member {
 
     private LocalDate birth;
 
-    private String rrn;
-
     private boolean isAuth;
 
     @OneToOne(fetch = LAZY)
@@ -48,11 +46,10 @@ public class Member {
     private Authentication authentication;
 
     @Builder
-    private Member(String name, String email, LocalDate birth, String rrn, boolean isAuth) {
+    private Member(String name, String email, LocalDate birth, boolean isAuth) {
         this.name = name;
         this.email = email;
         this.birth = birth;
-        this.rrn = rrn;
         this.isAuth = isAuth;
     }
 
@@ -61,7 +58,6 @@ public class Member {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .birth(dto.getBirth())
-                .rrn(dto.getRrn())
                 .isAuth(false)
                 .build();
     }
@@ -76,5 +72,9 @@ public class Member {
 
     public int getMemberYear() {
         return this.birth.getYear();
+
+    public void completeAuth() {
+        this.isAuth = true;
+
     }
 }

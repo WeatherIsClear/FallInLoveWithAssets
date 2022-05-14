@@ -28,10 +28,15 @@ public class InitData {
     private final InitService initService;
 
     @PostConstruct
-
-    public void init() {
+    public void initMember() {
         initService.initDB();
     }
+
+    public void initAuth() {
+        initService.setAuthentication();
+    }
+
+
 
     @Component
     @Transactional
@@ -61,8 +66,6 @@ public class InitData {
             em.persist(memberA);
             em.persist(memberB);
 
-            Authentication auth = new Authentication("123456-1234567");
-            em.persist(auth);
 
             Bank dongYeongBank = new Bank(DY);
             Bank taeYeongBank = new Bank(TY);
@@ -82,8 +85,11 @@ public class InitData {
 
             //예금 동태선 하나씩, 적금 동영 하나만 하자
             DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(38000000000L), bankMember1);
+            dongYeongAccount.addAccount(bankMember1);
             DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(20L), bankMember2);
+            taeYeongAccount.addAccount(bankMember2);
             DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(200000000L), bankMember3);
+            seonJeAccount.addAccount(bankMember3);
 
             em.persist(dongYeongAccount);
             em.persist(taeYeongAccount);
@@ -93,7 +99,22 @@ public class InitData {
                     , LocalDate.of(2022, 1, 1),
                     LocalDate.of(2025, 1, 1), 25, BigDecimal.valueOf(100000000L));
 
+            dongYeongSavingsAccount.addAccount(bankMember1);
+
             em.persist(dongYeongSavingsAccount);
+
+            em.flush();
+            em.clear();
+        }
+
+        public void setAuthentication() {
+            Authentication auth1 = new Authentication("김동영", "980526-1234567");
+            Authentication auth2 = new Authentication("김태영", "970805-1234567");
+            Authentication auth3 = new Authentication("이선제", "980209-1234567");
+
+            em.persist(auth1);
+            em.persist(auth2);
+            em.persist(auth3);
 
             em.flush();
             em.clear();
