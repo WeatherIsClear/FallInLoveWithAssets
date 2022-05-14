@@ -14,6 +14,7 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @DiscriminatorValue("SAVINGS")
+@NoArgsConstructor(access = PROTECTED)
 public class SavingsAccount extends Account {
 
     @OneToOne(fetch = LAZY)
