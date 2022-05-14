@@ -73,4 +73,8 @@ public class Member {
         this.status = WAITING;
         this.friend = friend;
     }
+
+    public int getMemberYear() {
+        return this.birth.getYear();
+    }
 }

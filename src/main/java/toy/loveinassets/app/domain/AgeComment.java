@@ -1,6 +1,5 @@
 package toy.loveinassets.app.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,9 @@ public class AgeComment {
     @Column(name = "age_comment_id")
     private Long id;
 
-    private Long parentId;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private AgeComment parent;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "age_board_id")

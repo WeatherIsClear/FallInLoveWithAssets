@@ -1,6 +1,5 @@
 package toy.loveinassets.app.domain;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
