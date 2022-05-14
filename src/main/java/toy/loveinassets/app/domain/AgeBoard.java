@@ -1,16 +1,22 @@
 package toy.loveinassets.app.domain;
 
-import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.loveinassets.app.BaseTimeEntity;
+import toy.loveinassets.app.domain.enums.AgeGroup;
+import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED)
-public class AgeBoard {
+public class AgeBoard extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -27,4 +33,25 @@ public class AgeBoard {
 
     private int views;
 
+    @Enumerated(STRING)
+    private AgeGroup ageGroup;
+
+    @Builder
+    private AgeBoard(Member member, String title, String content, int views, AgeGroup ageGroup) {
+        this.member = member;
+        this.title = title;
+        this.content = content;
+        this.views = views;
+        this.ageGroup = ageGroup;
+    }
+
+    public static AgeBoard of(Member member, AgeBoardRegistrationDto request) {
+        return AgeBoard.builder()
+                .member(member)
+                .title(request.getTitle())
+                .content(request.getContent())
+                .views(0)
+                .ageGroup(AgeGroup.getAgeGroup(member.getMemberYear()))
+                .build();
+    }
 }

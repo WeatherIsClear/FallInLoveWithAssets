@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.xml.stream.events.Comment;
 
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -19,10 +20,12 @@ public class GosuComment {
     @Column(name = "gosu_comment_id")
     private Long id;
 
-    private Long parentId;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private GosuComment parent;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "sodu_board_id")
+    @JoinColumn(name = "godu_board_id")
     private GosuBoard gosuBoard;
 
     @ManyToOne(fetch = LAZY)
