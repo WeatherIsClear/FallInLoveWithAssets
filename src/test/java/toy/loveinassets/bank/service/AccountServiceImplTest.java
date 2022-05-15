@@ -19,7 +19,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Rollback(value = false)
 @Slf4j
 class AccountServiceImplTest {
 
@@ -40,7 +39,6 @@ class AccountServiceImplTest {
     void 계좌_가져오기_테스트() throws Exception
     {
         //given
-        initData.initAuth();
         Authentication findAuth = authenticationRepository.findByNameAndRrn("김동영", "980526-1234567");
         //when
         List<AccountDto> accountList = accountService.getAccountList(new AccountAccessMemberDto("김동영", true, findAuth));

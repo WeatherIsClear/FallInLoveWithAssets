@@ -1,6 +1,8 @@
 package toy.loveinassets;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,7 @@ import static toy.loveinassets.bank.domain.enums.BankCode.*;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class InitData {
 
     private final InitService initService;
@@ -37,9 +40,6 @@ public class InitData {
         initService.initDB();
     }
 
-    public void initAuth() {
-        initService.setAuthentication();
-    }
 
 
     @Component
@@ -53,6 +53,7 @@ public class InitData {
         private final AccountRepository accountRepository;
 
         public void initDB() {
+            log.info("================ DATA INIT START ================");
             MemberDto memberDtoA = new MemberDto("김동영",
                     "yeondonge@gmail.com",
                     of(1998, 5, 26), "980526-1234567");
@@ -130,12 +131,6 @@ public class InitData {
             em.persist(history7);
             em.persist(history8);
 
-
-            em.flush();
-            em.clear();
-        }
-
-        public void setAuthentication() {
             Authentication auth1 = new Authentication("김동영", "980526-1234567");
             Authentication auth2 = new Authentication("김태영", "970805-1234567");
             Authentication auth3 = new Authentication("이선제", "980209-1234567");
@@ -144,8 +139,10 @@ public class InitData {
             em.persist(auth2);
             em.persist(auth3);
 
+
             em.flush();
             em.clear();
+            log.info("================ DATA INIT END ================");
         }
     }
 }

@@ -31,19 +31,43 @@ public class HistoryServiceImpl implements HistoryService {
 
 
     @Override
-    public List<HistoryDto> getHistoryList(List<AccountDto> accountDtoList) {
+    public List<HistoryDto> getTotalHistoryList(List<AccountDto> accountDtoList) {
+        List<HistoryDto> totalHistoryList = new ArrayList<>();
+
+        List<HistoryDto> depositHistoryList = getDepositHistoryList(accountDtoList);
+        List<HistoryDto> withdrawalHistoryList = getWithdrawalHistoryList(accountDtoList);
+
+        totalHistoryList.addAll(depositHistoryList);
+        totalHistoryList.addAll(withdrawalHistoryList);
+
+        return totalHistoryList;
+    }
+
+    @Override
+    public List<HistoryDto> getDepositHistoryList(List<AccountDto> accountDtoList) {
         List<HistoryDto> historyDtoList = new ArrayList<>();
         if (!accountDtoList.isEmpty()) {
             for (AccountDto accountDto : accountDtoList) {
                 Account findAccount = accountRepository.findByNumber(accountDto.getNumber());
                 historyDtoList.addAll(historyRepository.findDepositByToAccount(findAccount)
                         .stream().map(e -> new HistoryDto(e.getToAccount().getBankMember().getBank(), e.getToAccount().getNumber()
-                        ,e.getFromAccount().getNumber(), e.getRest_amount(), e.getTradingTime()))
+                                , e.getFromAccount().getNumber(), e.getRest_amount(), e.getTradingTime()))
                         .collect(Collectors.toList()));
+            }
+            return historyDtoList;
+        }
+        return null;
+    }
 
+    @Override
+    public List<HistoryDto> getWithdrawalHistoryList(List<AccountDto> accountDtoList) {
+        List<HistoryDto> historyDtoList = new ArrayList<>();
+        if (!accountDtoList.isEmpty()) {
+            for (AccountDto accountDto : accountDtoList) {
+                Account findAccount = accountRepository.findByNumber(accountDto.getNumber());
                 historyDtoList.addAll(historyRepository.findWithdrawalByFromAccount(findAccount)
                         .stream().map(e -> new HistoryDto(e.getFromAccount().getBankMember().getBank(), e.getFromAccount().getNumber()
-                                ,e.getToAccount().getNumber(), e.getRest_amount(), e.getTradingTime()))
+                                , e.getToAccount().getNumber(), e.getRest_amount(), e.getTradingTime()))
                         .collect(Collectors.toList()));
             }
             return historyDtoList;

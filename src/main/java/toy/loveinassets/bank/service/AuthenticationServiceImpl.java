@@ -23,9 +23,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Boolean getAuthentication(String name, String rrn) {
 
         if(bankMemberRepository.existsBankMemberByNameAndRrn(name, rrn)) {
-            authenticationRepository.save(new Authentication(name, rrn));
-            Member findMember = memberRepository.findByName(name);
-            findMember.completeAuth();
+            Authentication findAuth = authenticationRepository.findByNameAndRrn(name, rrn);
+            if(findAuth == null) {
+                authenticationRepository.save(new Authentication(name, rrn));
+                Member findMember = memberRepository.findByName(name);
+                findMember.completeAuth();
+            }
             return true;
         }
         return false;

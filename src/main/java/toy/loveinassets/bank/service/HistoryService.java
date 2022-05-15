@@ -10,5 +10,7 @@ import toy.loveinassets.bank.dto.HistoryDto;
 import java.util.List;
 
 public interface HistoryService {
-    List<HistoryDto> getHistoryList(List<AccountDto> accountDtoList);
+    List<HistoryDto> getTotalHistoryList(List<AccountDto> accountDtoList);
+    List<HistoryDto> getDepositHistoryList(List<AccountDto> accountDtoList);
+    List<HistoryDto> getWithdrawalHistoryList(List<AccountDto> accountDtoList);
 }
