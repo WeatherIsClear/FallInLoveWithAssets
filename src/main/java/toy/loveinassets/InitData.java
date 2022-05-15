@@ -1,6 +1,9 @@
 package toy.loveinassets;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
@@ -10,10 +13,14 @@ import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.bank.domain.Authentication;
 import toy.loveinassets.bank.domain.Bank;
 import toy.loveinassets.bank.domain.BankMember;
+import toy.loveinassets.bank.domain.History;
 import toy.loveinassets.bank.domain.account.Account;
 import toy.loveinassets.bank.domain.account.DepositAccount;
 import toy.loveinassets.bank.domain.account.SavingsAccount;
+import toy.loveinassets.bank.domain.enums.HistoryType;
+import toy.loveinassets.bank.dto.AccountDto;
 import toy.loveinassets.bank.dto.BankMemberDto;
+import toy.loveinassets.bank.repository.AccountRepository;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -25,6 +32,7 @@ import static toy.loveinassets.bank.domain.enums.BankCode.*;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class InitData {
 
     private final InitService initService;
@@ -34,10 +42,6 @@ public class InitData {
         initService.initDB();
     }
 
-    public void initAuth() {
-        initService.setAuthentication();
-    }
-
     @Component
     @Transactional
     @RequiredArgsConstructor
@@ -45,7 +49,11 @@ public class InitData {
 
         private final EntityManager em;
 
+        @Autowired
+        private final AccountRepository accountRepository;
+
         public void initDB() {
+            log.info("================ DATA INIT START ================");
             MemberDto memberDtoA = new MemberDto("김동영",
                     "yeondonge@gmail.com",
                     of(1998, 5, 26), "980526-1234567");
@@ -84,11 +92,11 @@ public class InitData {
             em.persist(bankMember3);
 
             //예금 동태선 하나씩, 적금 동영 하나만 하자
-            DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(38000000000L), bankMember1);
+            DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(100000L), bankMember1);
             dongYeongAccount.addAccount(bankMember1);
-            DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(20L), bankMember2);
+            DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(200000L), bankMember2);
             taeYeongAccount.addAccount(bankMember2);
-            DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(200000000L), bankMember3);
+            DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(300000L), bankMember3);
             seonJeAccount.addAccount(bankMember3);
 
             em.persist(dongYeongAccount);
@@ -106,11 +114,26 @@ public class InitData {
                         memberA, new AgeBoardRegistrationDto(1L, i + "", "content")));
             }
 
-            em.flush();
-            em.clear();
-        }
+            History history1 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(99000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history2 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(110000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history3 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(98000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history4 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(120000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history5 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(97000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history6 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(130000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history7 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(96000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history8 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(140000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
 
-        public void setAuthentication() {
+            seonJeAccount.deposit(BigDecimal.valueOf(4000L));
+            dongYeongAccount.withdrawal(BigDecimal.valueOf(4000L));
+            em.persist(history1);
+            em.persist(history2);
+            em.persist(history3);
+            em.persist(history4);
+            em.persist(history5);
+            em.persist(history6);
+            em.persist(history7);
+            em.persist(history8);
+
             Authentication auth1 = new Authentication("김동영", "980526-1234567");
             Authentication auth2 = new Authentication("김태영", "970805-1234567");
             Authentication auth3 = new Authentication("이선제", "980209-1234567");
@@ -119,8 +142,10 @@ public class InitData {
             em.persist(auth2);
             em.persist(auth3);
 
+
             em.flush();
             em.clear();
+            log.info("================ DATA INIT END ================");
         }
     }
 }

@@ -7,4 +7,5 @@ import toy.loveinassets.bank.domain.account.DepositAccount;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+    Account findByNumber(String number);
 }
