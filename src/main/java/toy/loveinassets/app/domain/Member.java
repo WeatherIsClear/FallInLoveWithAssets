@@ -72,9 +72,9 @@ public class Member {
 
     public int getMemberYear() {
         return this.birth.getYear();
+    }
 
     public void completeAuth() {
         this.isAuth = true;
-
     }
 }

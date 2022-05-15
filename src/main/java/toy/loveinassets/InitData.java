@@ -1,6 +1,7 @@
 package toy.loveinassets;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.Member;
@@ -8,10 +9,14 @@ import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.bank.domain.Authentication;
 import toy.loveinassets.bank.domain.Bank;
 import toy.loveinassets.bank.domain.BankMember;
+import toy.loveinassets.bank.domain.History;
 import toy.loveinassets.bank.domain.account.Account;
 import toy.loveinassets.bank.domain.account.DepositAccount;
 import toy.loveinassets.bank.domain.account.SavingsAccount;
+import toy.loveinassets.bank.domain.enums.HistoryType;
+import toy.loveinassets.bank.dto.AccountDto;
 import toy.loveinassets.bank.dto.BankMemberDto;
+import toy.loveinassets.bank.repository.AccountRepository;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -37,13 +42,15 @@ public class InitData {
     }
 
 
-
     @Component
     @Transactional
     @RequiredArgsConstructor
     static class InitService {
 
         private final EntityManager em;
+
+        @Autowired
+        private final AccountRepository accountRepository;
 
         public void initDB() {
             MemberDto memberDtoA = new MemberDto("김동영",
@@ -84,24 +91,45 @@ public class InitData {
             em.persist(bankMember3);
 
             //예금 동태선 하나씩, 적금 동영 하나만 하자
-            DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(38000000000L), bankMember1);
+            DepositAccount dongYeongAccount = new DepositAccount("12-135-131313", BigDecimal.valueOf(100000L), bankMember1);
             dongYeongAccount.addAccount(bankMember1);
-            DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(20L), bankMember2);
+            DepositAccount taeYeongAccount = new DepositAccount("1-23-987654", BigDecimal.valueOf(200000L), bankMember2);
             taeYeongAccount.addAccount(bankMember2);
-            DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(200000000L), bankMember3);
+            DepositAccount seonJeAccount = new DepositAccount("123-13-123456", BigDecimal.valueOf(300000L), bankMember3);
             seonJeAccount.addAccount(bankMember3);
 
             em.persist(dongYeongAccount);
             em.persist(taeYeongAccount);
             em.persist(seonJeAccount);
 
-            SavingsAccount dongYeongSavingsAccount = new SavingsAccount(dongYeongAccount,"21-123-1234", BigDecimal.valueOf(20000000000000L), bankMember1
+            SavingsAccount dongYeongSavingsAccount = new SavingsAccount(dongYeongAccount, "21-123-1234", BigDecimal.valueOf(20000000000000L), bankMember1
                     , LocalDate.of(2022, 1, 1),
                     LocalDate.of(2025, 1, 1), 25, BigDecimal.valueOf(100000000L));
 
             dongYeongSavingsAccount.addAccount(bankMember1);
 
             em.persist(dongYeongSavingsAccount);
+
+            History history1 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(99000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history2 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(110000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history3 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(98000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history4 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(120000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history5 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(97000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history6 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(130000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+            History history7 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(96000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
+            History history8 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(140000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
+
+            seonJeAccount.deposit(BigDecimal.valueOf(4000L));
+            dongYeongAccount.withdrawal(BigDecimal.valueOf(4000L));
+            em.persist(history1);
+            em.persist(history2);
+            em.persist(history3);
+            em.persist(history4);
+            em.persist(history5);
+            em.persist(history6);
+            em.persist(history7);
+            em.persist(history8);
+
 
             em.flush();
             em.clear();

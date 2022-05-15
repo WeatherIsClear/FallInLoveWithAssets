@@ -28,6 +28,7 @@ public class Account {
     @JoinColumn(name = "bank_member_id")
     private BankMember bankMember;
 
+
     public Account(String number, BigDecimal amount, BankMember bankMember) {
         this.number = number;
         this.amount = amount;
@@ -38,6 +39,14 @@ public class Account {
     public void addAccount(BankMember bankMember) {
         this.bankMember = bankMember;
         bankMember.getAccountList().add(this);
+    }
+
+    public void deposit(BigDecimal depositAmount) {
+        this.amount = amount.add(depositAmount);
+    }
+
+    public void withdrawal(BigDecimal withdrawalAmount) {
+        this.amount = amount.subtract(withdrawalAmount);
     }
 
     @Builder
