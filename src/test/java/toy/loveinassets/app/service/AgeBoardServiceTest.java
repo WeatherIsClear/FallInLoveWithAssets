@@ -1,6 +1,5 @@
 package toy.loveinassets.app.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import toy.loveinassets.app.domain.enums.AgeGroup;
 import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AgeBoardServiceTest {

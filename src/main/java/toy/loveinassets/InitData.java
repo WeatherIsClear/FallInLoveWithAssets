@@ -3,7 +3,9 @@ package toy.loveinassets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.Member;
+import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.bank.domain.Authentication;
 import toy.loveinassets.bank.domain.Bank;
@@ -35,8 +37,6 @@ public class InitData {
     public void initAuth() {
         initService.setAuthentication();
     }
-
-
 
     @Component
     @Transactional
@@ -95,13 +95,16 @@ public class InitData {
             em.persist(taeYeongAccount);
             em.persist(seonJeAccount);
 
-            SavingsAccount dongYeongSavingsAccount = new SavingsAccount(dongYeongAccount,"21-123-1234", BigDecimal.valueOf(20000000000000L), bankMember1
+            SavingsAccount dongYeongSavingsAccount = new SavingsAccount(dongYeongAccount, "21-123-1234", BigDecimal.valueOf(20000000000000L), bankMember1
                     , LocalDate.of(2022, 1, 1),
                     LocalDate.of(2025, 1, 1), 25, BigDecimal.valueOf(100000000L));
 
             dongYeongSavingsAccount.addAccount(bankMember1);
 
-            em.persist(dongYeongSavingsAccount);
+            for (int i = 0; i < 50; i++) {
+                em.persist(AgeBoard.of(
+                        memberA, new AgeBoardRegistrationDto(1L, i + "", "content")));
+            }
 
             em.flush();
             em.clear();

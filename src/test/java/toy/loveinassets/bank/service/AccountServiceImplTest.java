@@ -46,7 +46,7 @@ class AccountServiceImplTest {
         List<AccountDto> accountList = accountService.getAccountList(new AccountAccessMemberDto("김동영", true, findAuth));
 
         //then
-        Assertions.assertThat(accountList.size()).isEqualTo(2);
+        Assertions.assertThat(accountList.size()).isEqualTo(1);
         log.info("Account [{}]", accountList);
     }
 

@@ -1,6 +1,6 @@
 package toy.loveinassets.app.dto;
 
-import lombok.AllArgsConstructor;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class AgeBoardListResponse {
 
     private String memberName;
@@ -18,4 +17,12 @@ public class AgeBoardListResponse {
     private String content;
 
     private LocalDateTime time;
+
+    @QueryProjection
+    public AgeBoardListResponse(String memberName, String title, String content, LocalDateTime time) {
+        this.memberName = memberName;
+        this.title = title;
+        this.content = content;
+        this.time = time;
+    }
 }

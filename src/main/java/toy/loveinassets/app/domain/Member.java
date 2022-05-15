@@ -67,14 +67,14 @@ public class Member {
     }
     public void matchFriend(Member friend) {
         this.status = WAITING;
-        this.friend = friend;
+//        this.friend = friend;
     }
 
     public int getMemberYear() {
         return this.birth.getYear();
+    }
 
     public void completeAuth() {
         this.isAuth = true;
-
     }
 }
