@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.Member;
+import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.bank.domain.Authentication;
 import toy.loveinassets.bank.domain.Bank;
@@ -39,8 +41,6 @@ public class InitData {
     public void initMember() {
         initService.initDB();
     }
-
-
 
     @Component
     @Transactional
@@ -109,7 +109,10 @@ public class InitData {
 
             dongYeongSavingsAccount.addAccount(bankMember1);
 
-            em.persist(dongYeongSavingsAccount);
+            for (int i = 0; i < 50; i++) {
+                em.persist(AgeBoard.of(
+                        memberA, new AgeBoardRegistrationDto(1L, i + "", "content")));
+            }
 
             History history1 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(99000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
             History history2 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(110000L), HistoryType.DEPOSIT, seonJeAccount, dongYeongAccount);
