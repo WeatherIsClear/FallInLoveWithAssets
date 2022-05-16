@@ -1,6 +1,6 @@
 package toy.loveinassets.app.service.query;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
+import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.Member;
-import toy.loveinassets.app.dto.AgeBoardListResponse;
-import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
-import toy.loveinassets.app.dto.MemberDto;
+import toy.loveinassets.app.dto.*;
 import toy.loveinassets.app.repository.AgeBoardRepository;
+import toy.loveinassets.app.repository.AgeCommentRepository;
 import toy.loveinassets.app.repository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -31,11 +31,15 @@ class AgeBoardQueryServiceTest {
     MemberRepository memberRepository;
     @Autowired
     AgeBoardRepository ageBoardRepository;
+    @Autowired
+    AgeCommentRepository ageCommentRepository;
 
     Member member20;
     Member member30;
     Member member40;
     Member member50;
+
+    AgeBoard detail;
 
     @BeforeEach
     void initDate() {
@@ -62,7 +66,7 @@ class AgeBoardQueryServiceTest {
             ageBoardRepository.save(AgeBoard.of(member20,
                     new AgeBoardRegistrationDto(member20.getId(), "20대", "20대")));
         }
-        for (int i = 0; i < 9; i ++) {
+        for (int i = 0; i < 8; i ++) {
             ageBoardRepository.save(AgeBoard.of(member30,
                     new AgeBoardRegistrationDto(member30.getId(), "30대", "30대")));
         }
@@ -74,6 +78,9 @@ class AgeBoardQueryServiceTest {
             ageBoardRepository.save(AgeBoard.of(member50,
                     new AgeBoardRegistrationDto(member50.getId(), "50대", "50대")));
         }
+
+        detail = AgeBoard.of(member30, new AgeBoardRegistrationDto(1L, "detail", "details"));
+        ageBoardRepository.save(detail);
     }
 
     @Test
@@ -125,5 +132,44 @@ class AgeBoardQueryServiceTest {
         assertThat(thirties.getTotalElements()).isEqualTo(9L);
         assertThat(forties.getTotalElements()).isEqualTo(6L);
         assertThat(fifties.getTotalElements()).isEqualTo(4L);
+    }
+
+    @Test
+    @DisplayName("연령게시판 상세보기")
+    void ageBoardDetails() {
+        for (int i = 0; i < 7; i++) {
+            ageCommentRepository.save(AgeComment.of(member30, detail, "content"));
+        }
+
+        AgeBoardDetailsResponse ageBoardDetailsResponse = ageBoardQueryService.ageBoardDetails(detail.getId());
+
+        assertThat(ageBoardDetailsResponse.getAgeBoardId()).isEqualTo(detail.getId());
+        assertThat(ageBoardDetailsResponse.getMemberId()).isEqualTo(member30.getId());
+        assertThat(ageBoardDetailsResponse.getComments().getTotalElements()).isEqualTo(7L);
+    }
+
+    @Test
+    @DisplayName("상세보기 댓글 없음")
+    void ageBoardDetailsEmptyComment() {
+
+        AgeBoardDetailsResponse ageBoardDetailsResponse = ageBoardQueryService.ageBoardDetails(detail.getId());
+
+        assertThat(ageBoardDetailsResponse.getComments().isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("답글 개수 테스트")
+    void coCommentCountTest() {
+        AgeComment parent = AgeComment.of(member30, detail, "content");
+        ageCommentRepository.save(parent);
+        for (int i = 0; i < 30; i++) {
+            AgeComment of = AgeComment.of(member30, detail, "content");
+            of.addComment(parent);
+            ageCommentRepository.save(of);
+        }
+        AgeBoardDetailsResponse ageBoardDetailsResponse = ageBoardQueryService.ageBoardDetails(detail.getId());
+
+        assertThat(ageBoardDetailsResponse.getComments().getTotalElements()).isEqualTo(1L);
+        assertThat(ageBoardDetailsResponse.getComments().getContent().get(0).getChildComment()).isEqualTo(30);
     }
 }

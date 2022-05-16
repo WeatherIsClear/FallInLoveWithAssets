@@ -1,22 +1,24 @@
 package toy.loveinassets.app.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgeBoardListResponse {
+public class AgeCommentResponse {
 
-    private String memberName;
+    private Long ageCommentId;
 
-    private String title;
+    private Long memberId;
+
+    private LocalDateTime date;
 
     private String content;
 
-    private LocalDateTime time;
+    private int childComment;
 }
