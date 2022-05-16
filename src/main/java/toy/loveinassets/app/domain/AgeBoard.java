@@ -9,6 +9,9 @@ import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -26,6 +29,9 @@ public class AgeBoard extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "ageBoard")
+    private List<AgeComment> ageComments = new ArrayList<>();
 
     private String title;
 

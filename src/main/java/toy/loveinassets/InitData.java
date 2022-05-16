@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
+import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.Member;
 import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 import toy.loveinassets.app.dto.MemberDto;
@@ -141,7 +142,6 @@ public class InitData {
             em.persist(auth1);
             em.persist(auth2);
             em.persist(auth3);
-
 
             em.flush();
             em.clear();
