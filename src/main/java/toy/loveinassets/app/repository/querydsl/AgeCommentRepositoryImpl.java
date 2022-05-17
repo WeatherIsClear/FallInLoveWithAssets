@@ -10,6 +10,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import toy.loveinassets.app.domain.AgeComment;
+import toy.loveinassets.app.domain.QAgeComment;
+import toy.loveinassets.app.dto.AgeCommentResponse;
+import toy.loveinassets.app.dto.QAgeCommentResponse;
 
 import javax.persistence.EntityManager;
 
@@ -29,10 +32,18 @@ public class AgeCommentRepositoryImpl implements AgeCommentRepositoryCustom {
     }
 
     @Override
-    public Page<AgeComment> ageComments(Long ageBoardId, Pageable pageable) {
-        JPAQuery<AgeComment> query = queryFactory
-                .selectFrom(ageComment)
-                .join(ageComment.member, member).fetchJoin()
+    public Page<AgeCommentResponse> ageComments(Long ageBoardId, Pageable pageable) {
+        JPAQuery<AgeCommentResponse> query = queryFactory
+                .select(new QAgeCommentResponse(
+                        ageComment.id,
+                        ageComment.member.id,
+                        ageComment.member.name,
+                        ageComment.createdDate,
+                        ageComment.content,
+                        ageComment.children.size()
+                ))
+                .from(ageComment)
+                .join(ageComment.member, member)
                 .where(ageComment.ageBoard.id.eq(ageBoardId).and(ageComment.parent.isNull()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -41,8 +52,7 @@ public class AgeCommentRepositoryImpl implements AgeCommentRepositoryCustom {
             PathBuilder pathBuilder = new PathBuilder(ageComment.getType(), ageComment.getMetadata());
             query.orderBy(new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(order.getProperty())));
         }
-
-        List<AgeComment> result = query.fetch();
+        List<AgeCommentResponse> result = query.fetch();
 
         return new PageImpl<>(result, pageable, result.size());
     }

@@ -31,8 +31,8 @@ public class AgeComment extends BaseTimeEntity {
     @JoinColumn(name = "age_board_id")
     private AgeBoard ageBoard;
 
-    @ManyToOne
-    @JoinColumn(name = "child_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id")
     private AgeComment parent;
 
     @OneToMany(mappedBy = "parent")

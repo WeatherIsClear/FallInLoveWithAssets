@@ -143,6 +143,14 @@ public class InitData {
             em.persist(auth2);
             em.persist(auth3);
 
+            AgeBoard detail = AgeBoard.of(memberA, new AgeBoardRegistrationDto(1L, "detail", "details"));
+            em.persist(detail);
+            AgeComment parent = AgeComment.of(memberB, detail, "content");
+            em.persist(parent);
+            AgeComment of = AgeComment.of(memberA, detail, "content");
+            of.addComment(parent);
+            em.persist(of);
+
             em.flush();
             em.clear();
             log.info("================ DATA INIT END ================");
