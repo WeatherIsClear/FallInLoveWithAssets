@@ -7,9 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import toy.loveinassets.app.domain.AgeBoard;
-import toy.loveinassets.app.dto.AgeBoardListResponse;
+import toy.loveinassets.app.dto.AgeBoardsResponse;
 import toy.loveinassets.app.service.query.AgeBoardQueryService;
 
 @Controller
@@ -20,7 +18,7 @@ public class AgeBoardController {
 
     @GetMapping("/age-board/{memberId}")
     public String ageBoardList(@PathVariable Long memberId, @RequestParam int page, Model model) {
-        Page<AgeBoardListResponse> ageBoards = ageBoardQueryService.ageBoardList(memberId, page);
+        Page<AgeBoardsResponse> ageBoards = ageBoardQueryService.ageBoards(memberId, page);
         model.addAttribute("ageBoards", ageBoards);
         return "ageboard/ageBoards";
     }

@@ -1,6 +1,5 @@
 package toy.loveinassets.app.service.query;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,7 @@ import toy.loveinassets.app.repository.AgeBoardRepository;
 import toy.loveinassets.app.repository.AgeCommentRepository;
 import toy.loveinassets.app.repository.MemberRepository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDate.of;
@@ -33,6 +33,8 @@ class AgeBoardQueryServiceTest {
     AgeBoardRepository ageBoardRepository;
     @Autowired
     AgeCommentRepository ageCommentRepository;
+    @Autowired
+    EntityManager em;
 
     Member member20;
     Member member30;
@@ -87,10 +89,14 @@ class AgeBoardQueryServiceTest {
     @DisplayName("페이징 테스트")
     void pagingTest() {
 
-        Page<AgeBoardListResponse> ageBoards = null;
+        Page<AgeBoardsResponse> ageBoards = null;
+
 
         for (int i = 0; i < 5; i++) {
-            ageBoards = ageBoardQueryService.ageBoardList(1L, i);
+            long start = System.currentTimeMillis();
+            ageBoards = ageBoardQueryService.ageBoards(1L, i);
+            long end = System.currentTimeMillis();
+            System.out.println((end - start));
             assertThat(ageBoards.getSize()).isEqualTo(10);
         }
 
@@ -105,14 +111,14 @@ class AgeBoardQueryServiceTest {
         LocalDateTime date = LocalDateTime.of(9999, 12, 31, 12, 59);
 
         for (int i = 0; i < 5; i++) {
-            Page<AgeBoardListResponse> ageBoards = ageBoardQueryService.ageBoardList(1L, i);
+            Page<AgeBoardsResponse> ageBoards = ageBoardQueryService.ageBoards(1L, i);
             for (int j = 0; j < 10; j++) {
                 date = sortChecked(date, ageBoards, j);
             }
         }
     }
 
-    private LocalDateTime sortChecked(LocalDateTime date, Page<AgeBoardListResponse> ageBoards, int j) {
+    private LocalDateTime sortChecked(LocalDateTime date, Page<AgeBoardsResponse> ageBoards, int j) {
         if (date.isBefore(ageBoards.getContent().get(j).getTime())) {
             throw new RuntimeException("정렬 실패");
         } else {
@@ -123,10 +129,10 @@ class AgeBoardQueryServiceTest {
     @Test
     @DisplayName("연령대별 테스트")
     void ageGroupTest() {
-        Page<AgeBoardListResponse> twenties = ageBoardQueryService.ageBoardList(member20.getId(), 0);
-        Page<AgeBoardListResponse> thirties = ageBoardQueryService.ageBoardList(member30.getId(), 0);
-        Page<AgeBoardListResponse> forties = ageBoardQueryService.ageBoardList(member40.getId(), 0);
-        Page<AgeBoardListResponse> fifties = ageBoardQueryService.ageBoardList(member50.getId(), 0);
+        Page<AgeBoardsResponse> twenties = ageBoardQueryService.ageBoards(member20.getId(), 0);
+        Page<AgeBoardsResponse> thirties = ageBoardQueryService.ageBoards(member30.getId(), 0);
+        Page<AgeBoardsResponse> forties = ageBoardQueryService.ageBoards(member40.getId(), 0);
+        Page<AgeBoardsResponse> fifties = ageBoardQueryService.ageBoards(member50.getId(), 0);
 
         assertThat(twenties.getTotalElements()).isEqualTo(10L);
         assertThat(thirties.getTotalElements()).isEqualTo(9L);
