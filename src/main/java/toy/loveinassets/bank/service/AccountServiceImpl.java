@@ -31,7 +31,8 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDto> getAccountList(AccountAccessMemberDto accountAccessMemberDto) {
         if (accountAccessMemberDto.isAuth()) {
             BankMember findBankMember = bankMemberRepository.findByNameAndRrn(accountAccessMemberDto.getName(), accountAccessMemberDto.getAuthentication().getRrn());
-            return findBankMember.getAccountList().stream().map(e -> new AccountDto(e.getNumber(), e.getAmount()))
+            return findBankMember.getAccountList().stream()
+                    .map(e -> new AccountDto(e.getNumber(), e.getAmount()))
                     .collect(Collectors.toList());
 
         }

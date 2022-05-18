@@ -66,22 +66,22 @@ class AgeBoardQueryServiceTest {
 
         for (int i = 0; i < 10; i ++) {
             ageBoardRepository.save(AgeBoard.of(member20,
-                    new AgeBoardRegistrationDto(member20.getId(), "20대", "20대")));
+                    new BoardRegistrationDto(member20.getId(), "20대", "20대")));
         }
         for (int i = 0; i < 8; i ++) {
             ageBoardRepository.save(AgeBoard.of(member30,
-                    new AgeBoardRegistrationDto(member30.getId(), "30대", "30대")));
+                    new BoardRegistrationDto(member30.getId(), "30대", "30대")));
         }
         for (int i = 0; i < 6; i ++) {
             ageBoardRepository.save(AgeBoard.of(member40,
-                    new AgeBoardRegistrationDto(member40.getId(), "40대", "40대")));
+                    new BoardRegistrationDto(member40.getId(), "40대", "40대")));
         }
         for (int i = 0; i < 4; i ++) {
             ageBoardRepository.save(AgeBoard.of(member50,
-                    new AgeBoardRegistrationDto(member50.getId(), "50대", "50대")));
+                    new BoardRegistrationDto(member50.getId(), "50대", "50대")));
         }
 
-        detail = AgeBoard.of(member30, new AgeBoardRegistrationDto(1L, "detail", "details"));
+        detail = AgeBoard.of(member30, new BoardRegistrationDto(1L, "detail", "details"));
         ageBoardRepository.save(detail);
     }
 

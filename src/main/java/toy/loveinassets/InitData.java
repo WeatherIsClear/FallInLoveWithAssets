@@ -1,7 +1,6 @@
 package toy.loveinassets;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,17 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.Member;
-import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
+import toy.loveinassets.app.dto.BoardRegistrationDto;
 import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.bank.domain.Authentication;
 import toy.loveinassets.bank.domain.Bank;
 import toy.loveinassets.bank.domain.BankMember;
 import toy.loveinassets.bank.domain.History;
-import toy.loveinassets.bank.domain.account.Account;
 import toy.loveinassets.bank.domain.account.DepositAccount;
 import toy.loveinassets.bank.domain.account.SavingsAccount;
 import toy.loveinassets.bank.domain.enums.HistoryType;
-import toy.loveinassets.bank.dto.AccountDto;
 import toy.loveinassets.bank.dto.BankMemberDto;
 import toy.loveinassets.bank.repository.AccountRepository;
 
@@ -112,7 +109,7 @@ public class InitData {
 
             for (int i = 0; i < 50; i++) {
                 em.persist(AgeBoard.of(
-                        memberA, new AgeBoardRegistrationDto(1L, i + "", "content")));
+                        memberA, new BoardRegistrationDto(1L, i + "", "content")));
             }
 
             History history1 = new History(BigDecimal.valueOf(1000L), BigDecimal.valueOf(99000L), HistoryType.WITHDRAWAL, seonJeAccount, dongYeongAccount);
@@ -143,7 +140,7 @@ public class InitData {
             em.persist(auth2);
             em.persist(auth3);
 
-            AgeBoard detail = AgeBoard.of(memberA, new AgeBoardRegistrationDto(1L, "detail", "details"));
+            AgeBoard detail = AgeBoard.of(memberA, new BoardRegistrationDto(1L, "detail", "details"));
             em.persist(detail);
 //            AgeComment parent = AgeComment.of(memberB, detail, "content");
 //            em.persist(parent);

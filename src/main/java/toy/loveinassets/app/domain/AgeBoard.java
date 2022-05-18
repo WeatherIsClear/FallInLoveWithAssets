@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toy.loveinassets.app.BaseTimeEntity;
 import toy.loveinassets.app.domain.enums.AgeGroup;
-import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
+import toy.loveinassets.app.dto.BoardRegistrationDto;
 
 import javax.persistence.*;
 
@@ -51,7 +51,7 @@ public class AgeBoard extends BaseTimeEntity {
         this.ageGroup = ageGroup;
     }
 
-    public static AgeBoard of(Member member, AgeBoardRegistrationDto request) {
+    public static AgeBoard of(Member member, BoardRegistrationDto request) {
         return AgeBoard.builder()
                 .member(member)
                 .title(request.getTitle())
