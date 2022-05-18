@@ -1,5 +1,6 @@
 package toy.loveinassets.app.domain;
 
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

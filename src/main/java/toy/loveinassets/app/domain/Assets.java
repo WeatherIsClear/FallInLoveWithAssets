@@ -1,5 +1,6 @@
 package toy.loveinassets.app.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toy.loveinassets.app.domain.enums.AssetsType;
 
@@ -12,6 +13,7 @@ import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED)
 public class Assets {
 

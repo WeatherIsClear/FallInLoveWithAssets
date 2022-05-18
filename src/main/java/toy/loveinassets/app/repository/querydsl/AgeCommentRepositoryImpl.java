@@ -2,6 +2,8 @@ package toy.loveinassets.app.repository.querydsl;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.QAgeComment;
 import toy.loveinassets.app.dto.AgeCommentResponse;
 import toy.loveinassets.app.dto.QAgeCommentResponse;
@@ -33,6 +34,16 @@ public class AgeCommentRepositoryImpl implements AgeCommentRepositoryCustom {
 
     @Override
     public Page<AgeCommentResponse> ageComments(Long ageBoardId, Pageable pageable) {
+        return getAgeComments(ageBoardId, null, pageable);
+    }
+
+    @Override
+    public Page<AgeCommentResponse> nestedComments(Long parentId, Pageable pageable) {
+        return getAgeComments(null, parentId, pageable);
+    }
+
+    private Page<AgeCommentResponse> getAgeComments(Long ageBoardId, Long parentId, Pageable pageable) {
+        System.out.println(ageComment.parent == null);
         JPAQuery<AgeCommentResponse> query = queryFactory
                 .select(new QAgeCommentResponse(
                         ageComment.id,
@@ -44,7 +55,7 @@ public class AgeCommentRepositoryImpl implements AgeCommentRepositoryCustom {
                 ))
                 .from(ageComment)
                 .join(ageComment.member, member)
-                .where(ageComment.ageBoard.id.eq(ageBoardId).and(ageComment.parent.isNull()))
+                .where(ageBoardEq(ageBoardId, parentId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -55,5 +66,11 @@ public class AgeCommentRepositoryImpl implements AgeCommentRepositoryCustom {
         List<AgeCommentResponse> result = query.fetch();
 
         return new PageImpl<>(result, pageable, result.size());
+    }
+
+    private BooleanExpression ageBoardEq(Long ageBoardId, Long parentId) {
+        return parentId == null ?
+                ageComment.ageBoard.id.eq(ageBoardId).and(ageComment.parent.isNull()) :
+                ageComment.parent.id.eq(parentId);
     }
 }

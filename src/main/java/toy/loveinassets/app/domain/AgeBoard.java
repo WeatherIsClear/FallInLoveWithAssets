@@ -60,4 +60,8 @@ public class AgeBoard extends BaseTimeEntity {
                 .ageGroup(AgeGroup.getAgeGroup(member.getMemberYear()))
                 .build();
     }
+
+    public void view() {
+        this.views++;
+    }
 }
