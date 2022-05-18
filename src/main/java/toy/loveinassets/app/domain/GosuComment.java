@@ -1,11 +1,15 @@
 package toy.loveinassets.app.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toy.loveinassets.app.BaseTimeEntity;
 
 import javax.persistence.*;
-import javax.xml.stream.events.Comment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -13,7 +17,7 @@ import static lombok.AccessLevel.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class GosuComment {
+public class GosuComment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -32,5 +36,30 @@ public class GosuComment {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "parent")
+    private List<GosuComment> children = new ArrayList<>();
+
+
+
     private String content;
+
+    @Builder
+    private GosuComment(Member member, GosuBoard gosuBoard, String content) {
+        this.member = member;
+        this.gosuBoard = gosuBoard;
+        this.content = content;
+    }
+
+    public static GosuComment of(Member member, GosuBoard gosuBoard, String content) {
+        return GosuComment.builder()
+                .member(member)
+                .gosuBoard(gosuBoard)
+                .content(content)
+                .build();
+    }
+
+    public void addComment(GosuComment parent) {
+        this.parent = parent;
+        parent.getChildren().add(this);
+    }
 }

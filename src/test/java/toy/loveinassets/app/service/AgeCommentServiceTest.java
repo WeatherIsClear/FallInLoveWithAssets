@@ -1,6 +1,5 @@
 package toy.loveinassets.app.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.Member;
-import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
+import toy.loveinassets.app.dto.BoardRegistrationDto;
 import toy.loveinassets.app.dto.AgeCommentRequest;
 import toy.loveinassets.app.repository.AgeBoardRepository;
 import toy.loveinassets.app.repository.AgeCommentRepository;
 import toy.loveinassets.app.repository.MemberRepository;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -41,7 +38,7 @@ class AgeCommentServiceTest {
         Member member = memberRepository.findById(1L).get();
 
         AgeBoard ageBoard = AgeBoard.of(member,
-                new AgeBoardRegistrationDto(1L, "title", "content"));
+                new BoardRegistrationDto(1L, "title", "content"));
 
         savedAgeBoard = ageBoardRepository.save(ageBoard);
 
