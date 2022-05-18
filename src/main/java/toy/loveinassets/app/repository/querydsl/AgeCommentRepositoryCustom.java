@@ -7,4 +7,6 @@ import toy.loveinassets.app.dto.AgeCommentResponse;
 public interface AgeCommentRepositoryCustom {
 
     Page<AgeCommentResponse> ageComments(Long ageBoardId, Pageable pageable);
+
+    Page<AgeCommentResponse> nestedComments(Long parentId, Pageable pageable);
 }

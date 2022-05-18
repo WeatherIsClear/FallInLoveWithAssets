@@ -145,11 +145,11 @@ public class InitData {
 
             AgeBoard detail = AgeBoard.of(memberA, new AgeBoardRegistrationDto(1L, "detail", "details"));
             em.persist(detail);
-            AgeComment parent = AgeComment.of(memberB, detail, "content");
-            em.persist(parent);
-            AgeComment of = AgeComment.of(memberA, detail, "content");
-            of.addComment(parent);
-            em.persist(of);
+//            AgeComment parent = AgeComment.of(memberB, detail, "content");
+//            em.persist(parent);
+//            AgeComment of = AgeComment.of(memberA, detail, "content");
+//            of.addComment(parent);
+//            em.persist(of);
 
             em.flush();
             em.clear();

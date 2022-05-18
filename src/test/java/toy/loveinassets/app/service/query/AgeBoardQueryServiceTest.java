@@ -155,9 +155,20 @@ class AgeBoardQueryServiceTest {
     }
 
     @Test
+    @DisplayName("조회수")
+    void view() {
+        assertThat(detail.getViews()).isEqualTo(0);
+
+        for (int i = 0; i < 12; i++) {
+            ageBoardQueryService.ageBoardDetails(detail.getId());
+        }
+
+        assertThat(detail.getViews()).isEqualTo(12);
+    }
+
+    @Test
     @DisplayName("상세보기 댓글 없음")
     void ageBoardDetailsEmptyComment() {
-
         AgeBoardDetailsResponse ageBoardDetailsResponse = ageBoardQueryService.ageBoardDetails(detail.getId());
 
         assertThat(ageBoardDetailsResponse.getComments().isEmpty()).isTrue();
@@ -166,10 +177,10 @@ class AgeBoardQueryServiceTest {
     @Test
     @DisplayName("답글 개수 테스트")
     void coCommentCountTest() {
-        AgeComment parent = AgeComment.of(member30, detail, "content");
+        AgeComment parent = AgeComment.of(member20, detail, "content");
         ageCommentRepository.save(parent);
         for (int i = 0; i < 30; i++) {
-            AgeComment of = AgeComment.of(member30, detail, "content");
+            AgeComment of = AgeComment.of(member20, detail, "content");
             of.addComment(parent);
             ageCommentRepository.save(of);
         }

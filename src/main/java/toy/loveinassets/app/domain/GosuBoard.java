@@ -1,5 +1,6 @@
 package toy.loveinassets.app.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import static lombok.AccessLevel.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = PROTECTED)
 public class GosuBoard {
 
