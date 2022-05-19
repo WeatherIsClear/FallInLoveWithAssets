@@ -20,13 +20,15 @@ public class AgeBoardsResponse {
 
     private LocalDateTime time;
 
-    @QueryProjection
+    private int views;
 
-    public AgeBoardsResponse(Long ageBoardId, String memberName, String title, String content, LocalDateTime time) {
+    @QueryProjection
+    public AgeBoardsResponse(Long ageBoardId, String memberName, String title, String content, LocalDateTime time, int views) {
         this.ageBoardId = ageBoardId;
         this.memberName = memberName;
         this.title = title;
         this.content = content;
         this.time = time;
+        this.views = views;
     }
 }

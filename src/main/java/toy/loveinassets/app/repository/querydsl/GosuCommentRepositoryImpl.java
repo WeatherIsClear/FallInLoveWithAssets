@@ -9,15 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import toy.loveinassets.app.dto.AgeCommentResponse;
 import toy.loveinassets.app.dto.GosuCommentResponse;
-import toy.loveinassets.app.dto.QAgeCommentResponse;
 import toy.loveinassets.app.dto.QGosuCommentResponse;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static toy.loveinassets.app.domain.QAgeComment.ageComment;
 import static toy.loveinassets.app.domain.QGosuComment.gosuComment;
 import static toy.loveinassets.app.domain.QMember.member;
 

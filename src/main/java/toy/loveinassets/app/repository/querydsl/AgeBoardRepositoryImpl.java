@@ -38,7 +38,8 @@ public class AgeBoardRepositoryImpl implements AgeBoardRepositoryCustom {
                         ageBoard.member.name,
                         ageBoard.title,
                         ageBoard.content,
-                        ageBoard.createdDate
+                        ageBoard.createdDate,
+                        ageBoard.views
                 ))
                 .from(ageBoard)
                 .join(ageBoard.member, member)
