@@ -24,6 +24,8 @@ public class AgeBoardDetailsResponse {
 
     private AgeGroup ageGroup;
 
+    private int views;
+
     private Page<AgeCommentResponse> comments;
 
     public AgeBoardDetailsResponse(AgeBoard ageBoard, Page<AgeCommentResponse> comments) {
@@ -34,6 +36,7 @@ public class AgeBoardDetailsResponse {
         this.content = ageBoard.getContent();
         this.date = ageBoard.getCreatedDate();
         this.ageGroup = ageBoard.getAgeGroup();
+        this.views = ageBoard.getViews();
         this.comments = comments;
     }
 }

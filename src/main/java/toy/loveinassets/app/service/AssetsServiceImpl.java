@@ -26,5 +26,6 @@ public class AssetsServiceImpl implements AssetsService {
         for (AccountDto account : accountList) {
 
         }
+        return null;
     }
 }

@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import toy.loveinassets.app.BaseTimeEntity;
 import toy.loveinassets.app.domain.enums.AgeGroup;
 import toy.loveinassets.app.dto.BoardRegistrationDto;
+import toy.loveinassets.app.dto.BoardUpdateRequest;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -30,7 +32,7 @@ public class AgeBoard extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "ageBoard")
+    @OneToMany(mappedBy = "ageBoard", cascade = REMOVE)
     private List<AgeComment> ageComments = new ArrayList<>();
 
     private String title;
@@ -63,5 +65,19 @@ public class AgeBoard extends BaseTimeEntity {
 
     public void view() {
         this.views++;
+    }
+
+    public void update(BoardUpdateRequest request) {
+
+        writerChecked(request.getMemberId());
+
+        this.title = request.getTitle();
+        this.content = request.getContent();
+    }
+
+    public void writerChecked(Long memberId) {
+        if (!memberId.equals(this.getMember().getId())) {
+            throw new IllegalStateException("수정할 수 없습니다");
+        }
     }
 }

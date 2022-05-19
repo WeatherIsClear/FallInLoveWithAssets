@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.Member;
 import toy.loveinassets.app.dto.BoardRegistrationDto;
+import toy.loveinassets.app.dto.BoardUpdateRequest;
 import toy.loveinassets.app.repository.AgeBoardRepository;
 import toy.loveinassets.app.repository.MemberRepository;
 
@@ -28,4 +29,22 @@ public class AgeBoardService {
 
         return ageBoardRepository.save(ageBoard);
     }
+
+    public void ageBoardUpdate(BoardUpdateRequest request) {
+
+        AgeBoard ageBoard = ageBoardRepository.findById(request.getAgeBoardId())
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 게시글입니다."));
+
+        ageBoard.update(request);
+    }
+
+    public void ageBoardDelete(Long memberId, Long ageBoardId) {
+        ageBoardRepository.findById(ageBoardId).ifPresent(e -> this.delete(memberId, e));
+    }
+
+    private void delete(Long memberId, AgeBoard ageBoard) {
+        ageBoard.writerChecked(memberId);
+        ageBoardRepository.delete(ageBoard);
+    }
+
 }

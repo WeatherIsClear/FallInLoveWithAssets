@@ -1,7 +1,6 @@
 package toy.loveinassets.app.service.query;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,9 +8,8 @@ import org.springframework.data.domain.Page;
 import toy.loveinassets.app.domain.AgeBoard;
 import toy.loveinassets.app.domain.AgeComment;
 import toy.loveinassets.app.domain.Member;
-import toy.loveinassets.app.dto.AgeBoardDetailsResponse;
-import toy.loveinassets.app.dto.AgeBoardRegistrationDto;
 import toy.loveinassets.app.dto.AgeCommentResponse;
+import toy.loveinassets.app.dto.BoardRegistrationDto;
 import toy.loveinassets.app.dto.MemberDto;
 import toy.loveinassets.app.repository.AgeBoardRepository;
 import toy.loveinassets.app.repository.AgeCommentRepository;
@@ -44,7 +42,7 @@ class AgeCommentQueryServiceTest {
 
         memberRepository.save(member20);
 
-        ageBoard = AgeBoard.of(member20, new AgeBoardRegistrationDto(1L, "detail", "details"));
+        ageBoard = AgeBoard.of(member20, new BoardRegistrationDto(1L, "detail", "details"));
         ageBoardRepository.save(ageBoard);
     }
 
